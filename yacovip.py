@@ -25,7 +25,7 @@ covinfd=covinft.groupby(['Country/Region']).sum().T
 covrecd=covrect.groupby(['Country/Region']).sum().T
 
 # Create numpy arrays with the data, because I have to learn that first
-# Dates and and names of countries
+# Dates and names of countries
 index=np.array(covinfd.index)
 columns=np.array(covrecd.columns)
 
