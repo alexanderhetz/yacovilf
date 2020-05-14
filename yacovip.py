@@ -11,6 +11,7 @@ print('\n')
 # This allows to get updated data
 covinft=pd.read_csv('https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv')
 covrect=pd.read_csv('https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv')
+covdeat=pd.read_csv('https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv')
 
 # Get rid of unwanted data
 del(covinft['Lat'])
@@ -19,10 +20,14 @@ del(covinft['Province/State'])
 del(covrect['Lat'])
 del(covrect['Long'])
 del(covrect['Province/State'])
+del(covdeat['Lat'])
+del(covdeat['Long'])
+del(covdeat['Province/State'])
 
 # Add cases by region to get total cases by country
 covinfd=covinft.groupby(['Country/Region']).sum().T
 covrecd=covrect.groupby(['Country/Region']).sum().T
+covdead=covdeat.groupby(['Country/Region']).sum().T
 
 # Create numpy arrays with the data, because I have to learn that first
 # Dates and names of countries
@@ -33,6 +38,7 @@ columns=np.array(covrecd.columns)
 # where each column of the matrices represents a country
 covinf=covinfd.to_numpy(copy=True)
 covrec=covrecd.to_numpy(copy=True)
+covdea=covdead.to_numpy(copy=True)
 
 # Show one every seven dates
 ticks=np.copy(index)
@@ -67,13 +73,13 @@ def numberplot2(n,m):
     gr1.legend(('r', 'r = 1'),
               loc='upper left', shadow=True, fontsize='14')
     
-    gr2.plot(index,covrec[:,n],'b',covinf[:,n],'r')
+    gr2.plot(index,covrec[:,n],'b',covinf[:,n],'r',covdea[:,n],'darkgreen')
     gr2.set_xticks(index)
     gr2.set_xticklabels(ticks, rotation=90)
     gr2.set_yscale('log')
     gr2.grid(axis='both',linestyle='--',which='both')
     gr2.set_xlabel('Date',fontsize='14')
-    gr2.legend(('Recovered', 'Infected'),
+    gr2.legend(('Recovered', 'Infected','Death'),
               loc='upper left', shadow=True)
     
     plt.show()
