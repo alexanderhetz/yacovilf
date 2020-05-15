@@ -79,7 +79,7 @@ def numberplot2(n,m):
     gr2.set_yscale('log')
     gr2.grid(axis='both',linestyle='--',which='both')
     gr2.set_xlabel('Date',fontsize='14')
-    gr2.legend(('Recovered', 'Infected','Death'),
+    gr2.legend(('Recovered', 'Infected','Dead'),
               loc='upper left', shadow=True)
     
     plt.show()
